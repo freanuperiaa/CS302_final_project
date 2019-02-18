@@ -6,12 +6,11 @@ import numpy as np
 def get_data():
     df_unfiltered  = pd.read_csv("data/data.csv", header=0 , usecols=['c','h','l','o','t','v','symbol']) #read csv, select these as header and columns
     df_unfiltered.columns = ['close','high','low','open','date','volume','symbol'] #change column names
-    print(df_unfiltered.head(3))#test
     #make a new dataframe that only has jollibee in it
+    #the JFC starts in 367305th row to 373331th row
     df = df_unfiltered[df_unfiltered['symbol'].isin(['JFC'])] 
-    print(df)
+
     return df
-#the JFC starts in 367305th row to 373331th row
 
 
 def get_ohlc():
@@ -29,9 +28,27 @@ def get_ohlc():
         ]
         ohlc.append(curr_row)
         x += 1
-    for x in ohlc:
-        print(x)
+#    for x in ohlc:
+#        print(x)
+    #return matrix of open, low, high, close, and average
+    return ohlc
+
+def get_hlc_average():
+    df = get_data()
+    
+    #get the high, low, close and average it
+    x = 0
+    y = len(df)
+    hlc = []
+    while (x<y):
+        total = df['high'].values[x] + df['low'].values[x] + df['close'].values[x]
+        average = total/4
+        hlc.append(average)
+        x += 1
+#    print(hlc)
+
+    return hlc
 
 
 if __name__ == '__main__':
-    get_data()
+    get_ohlc()  
