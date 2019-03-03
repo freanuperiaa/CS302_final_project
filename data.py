@@ -28,8 +28,7 @@ def get_ohlc():
         ]
         ohlc.append(curr_row)
         x += 1
-#    for x in ohlc:
-#        print(x)
+
     #return matrix of open, low, high, close, and average
     return ohlc
 
