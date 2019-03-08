@@ -6,7 +6,7 @@ import plotly.plotly as ply
 import plotly.graph_objs as grapho
 
 import data
-
+import algorithms as algo
 
 def plot_hlc_average():
 
@@ -22,7 +22,13 @@ def plot_hlc_average():
     data_forplot = data.get_hlc_average()
     style.use('seaborn-whitegrid')
     fig = plt.figure()
-    plt.plot( data_forplot, label = "HLC average")
+    plt.plot(data_forplot, label = "HLC average")
+
+
+    # add the list from doing the double exponential smoothing
+    plt.plot(algo.double_exponential_smoothing(), label = 'Double Exponential Smoothing Forecast')
+
+
     plt.xlabel('time')
     plt.xticks(date_show, date, rotation = 50)
     plt.yticks([0,50,100,150,200], ['0 PHP', '50 PHP', '100 PHP', \
