@@ -25,8 +25,9 @@ def plot_hlc_average():
     plt.plot(data_forplot, label = "HLC average")
 
 
-    # add the list from doing the double exponential smoothing
+    # add the forecasted data
     plt.plot(algo.double_exponential_smoothing(), label = 'Double Exponential Smoothing Forecast')
+    plt.plot(algo.weighted_moving_average(), label = 'Weighted Moving Average')
 
 
     plt.xlabel('time')
