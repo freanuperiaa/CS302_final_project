@@ -74,7 +74,29 @@ def weighted_moving_average():
 
 
 
+def simple_moving_average():
+    """
+        Simple Moving Average
 
+        a forecasting technique where it takes the last n actual values
+        then takes the average of it as the forecast. This is not a good
+        forecasting technique, this shall only be used for comparing to the
+        other forecasting techniques
+    """
+    #take values from the data module
+    actual_data = list(data.get_hlc_average())
+    print(actual_data)
+    sma_forecast = []
+
+    #simple moving average
+    for x in range(len(actual_data)):
+        if x<3:
+            sma_forecast.append(actual_data[x])
+        else:
+            forecast = (actual_data[x - 3] + actual_data[x - 2] + actual_data[x - 1])/3
+            sma_forecast.append(forecast)
+    
+    return sma_forecast        
 
 
 if __name__ == '__main__':
