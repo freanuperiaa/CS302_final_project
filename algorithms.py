@@ -2,6 +2,7 @@
 #forecasting techniques
 
 import data
+import test
 import pandas as pd
 
 
@@ -16,7 +17,6 @@ def double_exponential_smoothing():
     """
     #take values from the data module
     actual_data = list(data.get_hlc_average())
-    print(actual_data)
 
     #set the alpha and beta values
     alpha, beta = 0.35, 0.35
@@ -32,15 +32,21 @@ def double_exponential_smoothing():
 
         else:
             #calculating level/trend
-            tt = (beta * (actual_data[x - 1] - forecast_data[x - 1])) + ((1 - beta) * estimated_trend[x - 1] )  
+            tt = (beta * (actual_data[x - 1] - forecast_data[x - 1])) + \
+                        ((1 - beta) * estimated_trend[x - 1] )  
             estimated_trend.append(tt)
             #calculating forecast
-            ft = (alpha * actual_data[x - 1]) + ((1 - alpha) * (forecast_data[x - 1] + estimated_trend[x - 1]))
+            ft = (alpha * actual_data[x - 1]) + ((1 - alpha) * \
+                        (forecast_data[x - 1] + estimated_trend[x - 1]))
             forecast_data.append(ft)
             #adjusting the forecast with the trend
             aft = ft + tt
             trend_adjusted_forecast.append(aft)
 
+    #test accuracy here
+    errors, total_error = test.test_accuracy(actual_data, trend_adjusted_forecast)
+    print('the error percentage of the second-order exponential smoothing '
+                                        'forecast is: ', total_error)
     return trend_adjusted_forecast
 
 
@@ -55,7 +61,6 @@ def weighted_moving_average():
     """
     #take values from the data module
     actual_data = list(data.get_hlc_average())
-    print(actual_data)
     wma_forecast = []
 
     #weighted moving average
@@ -70,6 +75,11 @@ def weighted_moving_average():
                 (actual_data[x - 2] * 0.2) + (actual_data[x - 1] * 0.1))
             )
 
+
+     #test accuracy here
+    errors, total_error = test.test_accuracy(actual_data, wma_forecast)
+    print('the error percentage of the weighted moving average forecast is: '
+                , total_error)
     return wma_forecast
 
 
@@ -85,7 +95,6 @@ def simple_moving_average():
     """
     #take values from the data module
     actual_data = list(data.get_hlc_average())
-    print(actual_data)
     sma_forecast = []
 
     #simple moving average
@@ -96,6 +105,12 @@ def simple_moving_average():
             forecast = (actual_data[x - 3] + actual_data[x - 2] + actual_data[x - 1])/3
             sma_forecast.append(forecast)
     
+
+    #test accuracy here
+    errors, total_error = test.test_accuracy(actual_data, sma_forecast)
+    print('the error percentage of the simple moving average forecast is: '
+                , total_error)
+
     return sma_forecast        
 
 
